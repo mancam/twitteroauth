@@ -19,6 +19,8 @@ class TwitterOAuth {
   public $url;
   /* Set up the API root URL. */
   public $host = "https://api.twitter.com/1/";
+  /* Set up the API search URL. */
+  public $shost = "https://search.twitter.com/";
   /* Set timeout default. */
   public $timeout = 30;
   /* Set connect timeout. */
@@ -177,7 +179,7 @@ class TwitterOAuth {
    */
   function oAuthRequest($url, $method, $parameters) {
     if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
-      $url = "{$this->host}{$url}.{$this->format}";
+      $url = ($url == 'search') ? "{$this->shost}{$url}.{$this->format}" : "{$this->host}{$url}.{$this->format}";
     }
     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
     $request->sign_request($this->sha1_method, $this->consumer, $this->token);
